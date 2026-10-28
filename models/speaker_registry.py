@@ -362,6 +362,8 @@ def verify_speaker_samples(samples, profile_id: str, sample_rate: int = 16000) -
         return {"status": "UNVERIFIED", "similarity": 0.0, "reason": "Profile not found"}
     if not profile.get("enrolled") or not profile.get("embedding"):
         return {"status": "UNVERIFIED", "similarity": 0.0, "reason": "Speaker profile not enrolled"}
+    if samples is None or (hasattr(samples, "size") and samples.size == 0):
+        return {"status": "UNVERIFIED", "similarity": 0.0, "reason": "No audio samples available"}
 
     enrolled_emb = profile.get("embedding")
     try:
